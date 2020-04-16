@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // ignore_for_file: non_constant_identifier_names
 // ignore_for_file: camel_case_types
@@ -14,7 +15,7 @@ class S implements WidgetsLocalizations {
   static S current;
 
   static const GeneratedLocalizationsDelegate delegate =
-    GeneratedLocalizationsDelegate();
+      GeneratedLocalizationsDelegate();
 
   static S of(BuildContext context) => Localizations.of<S>(context, S);
 
@@ -22,14 +23,25 @@ class S implements WidgetsLocalizations {
   TextDirection get textDirection => TextDirection.ltr;
 
   String get access_to_location_denied => "Access to location denied";
-  String get allow_access_to_the_location_services => "Allow access to the location services.";
+
+  String get allow_access_to_the_location_services =>
+      "Allow access to the location services.";
+
   String get cant_get_current_location => "Can't get current location";
+
   String get finding_place => "Finding place...";
+
   String get no_result_found => "No result found";
+
   String get ok => "Ok";
+
   String get please_check_your_connection => "Please check your connection";
-  String get please_make_sure_you_enable_gps_and_try_again => "Please make sure you enable GPS and try again";
+
+  String get please_make_sure_you_enable_gps_and_try_again =>
+      "Please make sure you enable GPS and try again";
+
   String get search_place => "Search place";
+
   String get server_error => "Server error";
 }
 
@@ -45,24 +57,36 @@ class $vi extends S {
 
   @override
   String get cant_get_current_location => "Không thể tìm được vị trí hiện tại";
+
   @override
   String get finding_place => "Tìm địa điểm...";
+
   @override
   String get no_result_found => "Không có kết quả nào";
+
   @override
   String get access_to_location_denied => "Truy cập vào vị trí bị từ chối";
+
   @override
-  String get allow_access_to_the_location_services => "Cho phép truy cập vào các dịch vụ định vị.";
+  String get allow_access_to_the_location_services =>
+      "Cho phép truy cập vào các dịch vụ định vị.";
+
   @override
   String get server_error => "Lỗi kết nối";
+
   @override
   String get search_place => "Địa điểm tìm kiếm";
+
   @override
   String get ok => "Đồng ý";
+
   @override
-  String get please_check_your_connection => "Vui lòng kiểm tra kết nối của bạn";
+  String get please_check_your_connection =>
+      "Vui lòng kiểm tra kết nối của bạn";
+
   @override
-  String get please_make_sure_you_enable_gps_and_try_again => "Vui lòng đảm bảo rằng bạn bật GPS và thử lại";
+  String get please_make_sure_you_enable_gps_and_try_again =>
+      "Vui lòng đảm bảo rằng bạn bật GPS và thử lại";
 }
 
 class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
@@ -75,7 +99,8 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
     ];
   }
 
-  LocaleListResolutionCallback listResolution({Locale fallback, bool withCountry = true}) {
+  LocaleListResolutionCallback listResolution(
+      {Locale fallback, bool withCountry = true}) {
     return (List<Locale> locales, Iterable<Locale> supported) {
       if (locales == null || locales.isEmpty) {
         return fallback ?? supported.first;
@@ -85,23 +110,32 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
     };
   }
 
-  LocaleResolutionCallback resolution({Locale fallback, bool withCountry = true}) {
+  LocaleResolutionCallback resolution(
+      {Locale fallback, bool withCountry = true}) {
     return (Locale locale, Iterable<Locale> supported) {
       return _resolve(locale, fallback, supported, withCountry);
     };
   }
 
   @override
-  Future<S> load(Locale locale) {
-    final String lang = getLang(locale);
+  Future<S> load(Locale locale) async {
+    String lang = getLang(locale);
+    final SharedPreferences prefInstance =
+        await SharedPreferences.getInstance();
+    if (prefInstance.containsKey("language_code")) {
+      lang = prefInstance.get("language_code");
+    }
     if (lang != null) {
       switch (lang) {
         case "vi":
           S.current = const $vi();
           return SynchronousFuture<S>(S.current);
-        default:
+          break;
+        case "en":
           S.current = const $en();
           return SynchronousFuture<S>(S.current);
+          break;
+        default:
       }
     }
     S.current = const S();
@@ -117,7 +151,8 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
   ///
   /// Internal method to resolve a locale from a list of locales.
   ///
-  Locale _resolve(Locale locale, Locale fallback, Iterable<Locale> supported, bool withCountry) {
+  Locale _resolve(Locale locale, Locale fallback, Iterable<Locale> supported,
+      bool withCountry) {
     if (locale == null || !_isSupported(locale, withCountry)) {
       return fallback ?? supported.first;
     }
@@ -150,7 +185,9 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
         }
 
         // If no country requirement is requested, check if this locale has no country.
-        if (true != withCountry && (supportedLocale.countryCode == null || supportedLocale.countryCode.isEmpty)) {
+        if (true != withCountry &&
+            (supportedLocale.countryCode == null ||
+                supportedLocale.countryCode.isEmpty)) {
           return true;
         }
       }
@@ -160,7 +197,7 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
 }
 
 String getLang(Locale l) => l == null
-  ? null
-  : l.countryCode != null && l.countryCode.isEmpty
-    ? l.languageCode
-    : l.toString();
+    ? null
+    : l.countryCode != null && l.countryCode.isEmpty
+        ? l.languageCode
+        : l.toString();
