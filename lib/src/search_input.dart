@@ -6,12 +6,12 @@ import 'package:google_map_location_picker/generated/i18n.dart';
 /// Custom Search input field, showing the search and clear icons.
 class SearchInput extends StatefulWidget {
   SearchInput(
-    this.onSearchInput, {
-    Key key,
-    this.searchInputKey,
-    this.boxDecoration,
-    this.hintText,
-  }) : super(key: key);
+      this.onSearchInput, {
+        Key key,
+        this.searchInputKey,
+        this.boxDecoration,
+        this.hintText,
+      }) : super(key: key);
 
   final ValueChanged<String> onSearchInput;
   final Key searchInputKey;
@@ -64,12 +64,12 @@ class SearchInputState extends State<SearchInput> {
     return Container(
       decoration: widget.boxDecoration ??
           BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(8),
             color: Theme.of(context).brightness == Brightness.dark
                 ? Colors.black54
                 : Colors.white,
           ),
-      padding: EdgeInsets.symmetric(horizontal: 8),
+      padding: EdgeInsets.all(3),
       child: Row(
         children: <Widget>[
           Icon(Icons.search),
@@ -78,6 +78,7 @@ class SearchInputState extends State<SearchInput> {
             child: TextField(
               controller: editController,
               decoration: InputDecoration(
+                contentPadding: EdgeInsets.only(left: 7, top: 3, right: 7, bottom: 3),
                 hintText: widget.hintText ??
                     S.of(context)?.search_place ??
                     'Search place',
@@ -93,14 +94,14 @@ class SearchInputState extends State<SearchInput> {
           SizedBox(width: 8),
           hasSearchEntry
               ? GestureDetector(
-                  child: Icon(Icons.clear),
-                  onTap: () {
-                    editController.clear();
-                    setState(() {
-                      hasSearchEntry = false;
-                    });
-                  },
-                )
+            child: Icon(Icons.clear),
+            onTap: () {
+              editController.clear();
+              setState(() {
+                hasSearchEntry = false;
+              });
+            },
+          )
               : SizedBox(),
         ],
       ),

@@ -22,7 +22,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
 //      theme: ThemeData.dark(),
-      title: 'location picker',
+      title: 'Location picker',
       localizationsDelegates: const [
         location_picker.S.delegate,
         S.delegate,
@@ -32,13 +32,11 @@ class _MyAppState extends State<MyApp> {
       ],
       supportedLocales: const <Locale>[
         Locale('en', ''),
-        Locale('ar', ''),
-        Locale('pt', ''),
-        Locale('tr', ''),
+        Locale('vi', ''),
       ],
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('location picker'),
+          title: const Text('Location picker'),
         ),
         body: Builder(builder: (context) {
           return Center(

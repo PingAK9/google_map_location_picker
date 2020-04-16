@@ -33,116 +33,36 @@ class S implements WidgetsLocalizations {
   String get server_error => "Server error";
 }
 
-class $ar extends S {
-  const $ar();
-
-  @override
-  TextDirection get textDirection => TextDirection.rtl;
-
-  @override
-  String get cant_get_current_location => "لا يمكن الحصول علي الموقع الجغرافي الحالي";
-  @override
-  String get finding_place => "Finding place...";
-  @override
-  String get no_result_found => "No result found";
-  @override
-  String get access_to_location_denied => "تم رفض إذن الوصل الي الموقع الجغرافي";
-  @override
-  String get allow_access_to_the_location_services => "من فضلك قم بقبول إذن الوصول الي الموقع الجغرافي";
-  @override
-  String get server_error => "خطأ من الخادم حاول مرة اخري";
-  @override
-  String get search_place => "إبحث بإسم المكان";
-  @override
-  String get ok => "حسنا";
-  @override
-  String get please_check_your_connection => "تأكد من وجود انترنت";
-  @override
-  String get please_make_sure_you_enable_gps_and_try_again => "الرجاء التاكد من تفعيل الGPS و المحاولة مرة أخري";
-}
-
-class $ru extends S {
-  const $ru();
-
-  @override
-  TextDirection get textDirection => TextDirection.ltr;
-
-  @override
-  String get cant_get_current_location => "Невозможно получить текущее местоположение";
-  @override
-  String get access_to_location_denied => "Доступ к местоположению запрещен";
-  @override
-  String get allow_access_to_the_location_services => "Разрешить доступ к службам определения местоположения.";
-  @override
-  String get server_error => "Ошибка сервера";
-  @override
-  String get search_place => "Поиск места";
-  @override
-  String get ok => "ОК";
-  @override
-  String get please_check_your_connection => "Пожалуйста, проверьте ваше соединение";
-  @override
-  String get please_make_sure_you_enable_gps_and_try_again => "Пожалуйста, убедитесь, что вы включили GPS и попробуйте снова";
-}
-
-class $pt extends S {
-  const $pt();
-
-  @override
-  TextDirection get textDirection => TextDirection.ltr;
-
-  @override
-  String get cant_get_current_location => "Não é possível obter a localização atual";
-  @override
-  String get finding_place => "Finding place...";
-  @override
-  String get no_result_found => "No result found";
-  @override
-  String get access_to_location_denied => "Acesso ao local negado";
-  @override
-  String get allow_access_to_the_location_services => "Permitir acesso aos serviços de localização.";
-  @override
-  String get server_error => "Erro de servidor";
-  @override
-  String get search_place => "Pesquisar endereço";
-  @override
-  String get ok => "Ok";
-  @override
-  String get please_check_your_connection => "Por favor, verifique sua conexão";
-  @override
-  String get please_make_sure_you_enable_gps_and_try_again => "Certifique-se de ativar o GPS e tente novamente";
-}
-
 class $en extends S {
   const $en();
 }
 
-class $tr extends S {
-  const $tr();
+class $vi extends S {
+  const $vi();
 
   @override
   TextDirection get textDirection => TextDirection.ltr;
 
   @override
-  String get cant_get_current_location => "Geçerli konum alınamıyor";
+  String get cant_get_current_location => "Không thể tìm được vị trí hiện tại";
   @override
-  String get finding_place => "Finding place...";
+  String get finding_place => "Tìm địa điểm...";
   @override
-  String get no_result_found => "No result found";
+  String get no_result_found => "Không có kết quả nào";
   @override
-  String get access_to_location_denied => "Konum erişimi reddedildi";
+  String get access_to_location_denied => "Truy cập vào vị trí bị từ chối";
   @override
-  String get allow_access_to_the_location_services => "Konum servislerine izin verin.";
+  String get allow_access_to_the_location_services => "Cho phép truy cập vào các dịch vụ định vị.";
   @override
-  String get server_error => "Sunucu hatası";
+  String get server_error => "Lỗi kết nối";
   @override
-  String get search_place => "Konum ara";
+  String get search_place => "Địa điểm tìm kiếm";
   @override
-  String get ok => "Tamam";
+  String get ok => "Đồng ý";
   @override
-  String get please_check_your_connection => "Lütfen bağlantınızı kontrol edin";
+  String get please_check_your_connection => "Vui lòng kiểm tra kết nối của bạn";
   @override
-  String get please_make_sure_you_enable_gps_and_try_again => "Lütfen GPS’i etkinleştirin ve tekrar deneyin.";
+  String get please_make_sure_you_enable_gps_and_try_again => "Vui lòng đảm bảo rằng bạn bật GPS và thử lại";
 }
 
 class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
@@ -150,11 +70,8 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
 
   List<Locale> get supportedLocales {
     return const <Locale>[
-      Locale("ar", ""),
-      Locale("ru", ""),
-      Locale("pt", ""),
+      Locale("vi", ""),
       Locale("en", ""),
-      Locale("tr", ""),
     ];
   }
 
@@ -179,23 +96,12 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
     final String lang = getLang(locale);
     if (lang != null) {
       switch (lang) {
-        case "ar":
-          S.current = const $ar();
-          return SynchronousFuture<S>(S.current);
-        case "ru":
-          S.current = const $ru();
-          return SynchronousFuture<S>(S.current);
-        case "pt":
-          S.current = const $pt();
-          return SynchronousFuture<S>(S.current);
-        case "en":
-          S.current = const $en();
-          return SynchronousFuture<S>(S.current);
-        case "tr":
-          S.current = const $tr();
+        case "vi":
+          S.current = const $vi();
           return SynchronousFuture<S>(S.current);
         default:
-          // NO-OP.
+          S.current = const $en();
+          return SynchronousFuture<S>(S.current);
       }
     }
     S.current = const S();
