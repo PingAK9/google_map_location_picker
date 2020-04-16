@@ -83,6 +83,11 @@ class SearchInputState extends State<SearchInput> {
                     S.of(context)?.search_place ??
                     'Search place',
                 border: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                errorBorder: InputBorder.none,
+                disabledBorder: InputBorder.none,
+                focusedBorder: InputBorder.none,
+                focusedErrorBorder: InputBorder.none,
               ),
               onChanged: (value) {
                 setState(() {

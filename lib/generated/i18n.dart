@@ -65,7 +65,7 @@ class $vi extends S {
   String get no_result_found => "Không có kết quả nào";
 
   @override
-  String get access_to_location_denied => "Truy cập vào vị trí bị từ chối";
+  String get access_to_location_denied => "App Cần quyền truy cập vào Vị Trí";
 
   @override
   String get allow_access_to_the_location_services =>

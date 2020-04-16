@@ -314,7 +314,7 @@ class MapPickerState extends State<MapPicker> {
                     'Allow access to the location services.'),
             actions: <Widget>[
               FlatButton(
-                child: Text(S.of(context)?.ok ?? 'Ok'),
+                child: Text((S.of(context)?.ok ?? 'OK').toUpperCase()),
                 onPressed: () {
                   Navigator.of(context, rootNavigator: true).pop();
                   _initCurrentLocation();
