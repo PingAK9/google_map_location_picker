@@ -229,6 +229,7 @@ class MapPickerState extends State<MapPicker> {
                   Spacer(),
                   widget.resultCardConfirmWidget ??
                       FloatingActionButton(
+                        backgroundColor: Theme.of(context).primaryColor,
                         onPressed: () {
                           Navigator.of(context).pop({
                             'location': LocationResult(
@@ -237,7 +238,10 @@ class MapPickerState extends State<MapPicker> {
                             )
                           });
                         },
-                        child: Icon(Icons.arrow_forward),
+                        child: Icon(
+                          Icons.arrow_forward,
+                          color: Colors.black54,
+                        ),
                       ),
                 ],
               ),
