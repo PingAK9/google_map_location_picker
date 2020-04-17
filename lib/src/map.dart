@@ -239,7 +239,7 @@ class MapPickerState extends State<MapPicker> {
                         },
                         child: Icon(
                           Icons.arrow_forward,
-                          color: Colors.black54,
+                          color: Colors.white,
                         ),
                       ),
                 ],
@@ -401,10 +401,7 @@ class _MapFabs extends StatelessWidget {
               onPressed: onToggleMapTypePressed,
               materialTapTargetSize: MaterialTapTargetSize.padded,
               mini: true,
-              child: const Icon(
-                Icons.layers,
-                color: Colors.black54,
-              ),
+              child: const Icon(Icons.layers, color: Colors.white),
               heroTag: "layers",
             ),
           if (myLocationButtonEnabled)
@@ -412,7 +409,7 @@ class _MapFabs extends StatelessWidget {
               onPressed: onMyLocationPressed,
               materialTapTargetSize: MaterialTapTargetSize.padded,
               mini: true,
-              child: const Icon(Icons.my_location, color: Colors.black54),
+              child: const Icon(Icons.my_location, color: Colors.white),
               heroTag: "myLocation",
             ),
         ],
