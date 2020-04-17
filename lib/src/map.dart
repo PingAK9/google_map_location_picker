@@ -229,7 +229,6 @@ class MapPickerState extends State<MapPicker> {
                   Spacer(),
                   widget.resultCardConfirmWidget ??
                       FloatingActionButton(
-                        backgroundColor: Theme.of(context).primaryColor,
                         onPressed: () {
                           Navigator.of(context).pop({
                             'location': LocationResult(
@@ -402,7 +401,10 @@ class _MapFabs extends StatelessWidget {
               onPressed: onToggleMapTypePressed,
               materialTapTargetSize: MaterialTapTargetSize.padded,
               mini: true,
-              child: const Icon(Icons.layers),
+              child: const Icon(
+                Icons.layers,
+                color: Colors.black54,
+              ),
               heroTag: "layers",
             ),
           if (myLocationButtonEnabled)
@@ -410,7 +412,7 @@ class _MapFabs extends StatelessWidget {
               onPressed: onMyLocationPressed,
               materialTapTargetSize: MaterialTapTargetSize.padded,
               mini: true,
-              child: const Icon(Icons.my_location),
+              child: const Icon(Icons.my_location, color: Colors.black54),
               heroTag: "myLocation",
             ),
         ],

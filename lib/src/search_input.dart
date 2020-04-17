@@ -87,7 +87,7 @@ class SearchInputState extends State<SearchInput> {
                           });
                         },
                       )
-                    : null(),
+                    : null,
                 hintText: widget.hintText ?? S.of(context)?.search_place,
                 border: InputBorder.none,
                 enabledBorder: InputBorder.none,
