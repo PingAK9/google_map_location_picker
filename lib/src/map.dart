@@ -179,7 +179,11 @@ class MapPickerState extends State<MapPicker> {
 //            },
             mapType: _currentMapType,
             myLocationEnabled: true,
-            markers: [Marker(position: _lastMapPosition)].toSet(),
+            markers: [
+              Marker(
+                  markerId: MarkerId('_lastMapPosition'),
+                  position: _lastMapPosition)
+            ].toSet(),
           ),
           _MapFabs(
             myLocationButtonEnabled: widget.myLocationButtonEnabled,
@@ -187,7 +191,7 @@ class MapPickerState extends State<MapPicker> {
             onToggleMapTypePressed: _onToggleMapTypePressed,
             onMyLocationPressed: _initCurrentLocation,
           ),
-          pin(),
+//          pin(),
           locationCard(),
         ],
       ),

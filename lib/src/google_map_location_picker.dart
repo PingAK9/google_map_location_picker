@@ -264,9 +264,10 @@ class LocationPickerState extends State<LocationPicker> {
   void getNearbyPlaces(LatLng latLng) {
     LocationUtils.getAppHeaders()
         .then((headers) => http.get(
-          "https://maps.googleapis.com/maps/api/place/nearbysearch/json?" +
-            "key=${widget.apiKey}&" +
-            "location=${latLng.latitude},${latLng.longitude}&radius=150", headers: headers))
+            "https://maps.googleapis.com/maps/api/place/nearbysearch/json?" +
+                "key=${widget.apiKey}&" +
+                "location=${latLng.latitude},${latLng.longitude}&radius=150",
+            headers: headers))
         .then((response) {
       if (response.statusCode == 200) {
         nearbyPlaces.clear();
@@ -300,7 +301,8 @@ class LocationPickerState extends State<LocationPicker> {
   Future reverseGeocodeLatLng(LatLng latLng) async {
     var response = await http.get(
         "https://maps.googleapis.com/maps/api/geocode/json?latlng=${latLng.latitude},${latLng.longitude}"
-        "&key=${widget.apiKey}", headers: await LocationUtils.getAppHeaders());
+        "&key=${widget.apiKey}",
+        headers: await LocationUtils.getAppHeaders());
 
     if (response.statusCode == 200) {
       Map<String, dynamic> responseJson = jsonDecode(response.body);
@@ -330,6 +332,8 @@ class LocationPickerState extends State<LocationPicker> {
   /// match the location.
   void moveToLocation(LatLng latLng) {
     mapKey.currentState.mapController.future.then((controller) {
+      // Todo: Update lastPosition here
+      LocationProvider.of(context, listen: false).setLastIdleLocation(latLng);
       controller.animateCamera(
         CameraUpdate.newCameraPosition(
           CameraPosition(
@@ -377,7 +381,8 @@ class LocationPickerState extends State<LocationPicker> {
             requiredGPS: widget.requiredGPS,
             myLocationButtonEnabled: widget.myLocationButtonEnabled,
             layersButtonEnabled: widget.layersButtonEnabled,
-            automaticallyAnimateToCurrentLocation: widget.automaticallyAnimateToCurrentLocation,
+            automaticallyAnimateToCurrentLocation:
+                widget.automaticallyAnimateToCurrentLocation,
             mapStylePath: widget.mapStylePath,
             appBarColor: widget.appBarColor,
             searchBarBoxDecoration: widget.searchBarBoxDecoration,
@@ -430,7 +435,8 @@ Future<LocationResult> showLocationPicker(
           requiredGPS: requiredGPS,
           myLocationButtonEnabled: myLocationButtonEnabled,
           layersButtonEnabled: layersButtonEnabled,
-          automaticallyAnimateToCurrentLocation: automaticallyAnimateToCurrentLocation,
+          automaticallyAnimateToCurrentLocation:
+              automaticallyAnimateToCurrentLocation,
           mapStylePath: mapStylePath,
           appBarColor: appBarColor,
           hintText: hintText,
