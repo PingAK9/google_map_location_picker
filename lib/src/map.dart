@@ -215,8 +215,7 @@ class MapPickerState extends State<MapPicker> {
                   Flexible(
                     flex: 20,
                     child: FutureLoadingBuilder<String>(
-                        future: getAddress(locationProvider.lastIdleLocation,
-                            locationProvider.placeId),
+                        future: getAddress(locationProvider),
                         mutable: true,
                         loadingIndicator: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -257,11 +256,12 @@ class MapPickerState extends State<MapPicker> {
     );
   }
 
-  Future<String> getAddress(LatLng location, String placeId) async {
-    if (placeId == null) {
-      return getAddressByLocation(location);
+  Future<String> getAddress(LocationProvider provider) async {
+    if (provider.formatted_address == null) {
+      return getAddressByLocation(provider.lastIdleLocation);
     } else {
-      return getAddressByPlace(placeId);
+      return provider.formatted_address;
+//      return getAddressByPlace(provider.placeId);
     }
   }
 
@@ -285,8 +285,7 @@ class MapPickerState extends State<MapPicker> {
   Future<String> getAddressByPlace(String placeId) async {
     try {
       String endPoint =
-          "https://maps.googleapis.com/maps/api/place/details/json?key=${widget.apiKey}" +
-              "&placeid=$placeId";
+          "https://maps.googleapis.com/maps/api/place/details/json?key=${widget.apiKey}&placeid=$placeId";
       var response = jsonDecode((await http.get(endPoint,
               headers: await LocationUtils.getAppHeaders()))
           .body);
@@ -299,7 +298,7 @@ class MapPickerState extends State<MapPicker> {
     return null;
   }
 
-  Widget pin() {
+  Widget _pin() {
     return IgnorePointer(
       child: Center(
         child: Column(

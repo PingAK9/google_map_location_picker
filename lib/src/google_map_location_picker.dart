@@ -177,7 +177,7 @@ class LocationPickerState extends State<LocationPicker> {
             aci.length = t['matched_substrings'][0]['length'];
 
             suggestions.add(RichSuggestion(aci, () {
-              decodeAndSelectPlace(aci.id);
+              decodeAndSelectPlace(aci);
             }));
           }
         }
@@ -192,12 +192,12 @@ class LocationPickerState extends State<LocationPicker> {
   /// To navigate to the selected place from the autocomplete list to the map,
   /// the lat,lng is required. This method fetches the lat,lng of the place and
   /// proceeds to moving the map to that location.
-  void decodeAndSelectPlace(String placeId) {
+  void decodeAndSelectPlace(AutoCompleteItem item) {
     clearOverlay();
 
     String endpoint =
         "https://maps.googleapis.com/maps/api/place/details/json?key=${widget.apiKey}" +
-            "&placeid=$placeId";
+            "&placeid=${item.id}";
 
     LocationUtils.getAppHeaders()
         .then((headers) => http.get(endpoint, headers: headers))
@@ -208,7 +208,8 @@ class LocationPickerState extends State<LocationPicker> {
 
         final LatLng latLng = LatLng(location['lat'], location['lng']);
         LocationProvider.of(_locationContext, listen: false)
-            .setLastIdleLocation(latLng, placeID: placeId);
+            .setLastIdleLocation(latLng,
+                placeID: item.id, formatted_address: item.text);
         moveToLocation(latLng);
       }
     }).catchError((error) {
