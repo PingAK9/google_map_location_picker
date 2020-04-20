@@ -257,6 +257,31 @@ class LocationPickerState extends State<LocationPicker> {
     });
   }
 
+  void onSearchPlaceByName(String name) {
+    clearOverlay();
+
+    String endpoint =
+        "https://maps.googleapis.com/maps/api/geocode/json?address=${name.replaceAll(' ', '+')}&key=${widget.apiKey}";
+
+    LocationUtils.getAppHeaders()
+        .then((headers) => http.get(endpoint, headers: headers))
+        .then((response) {
+      if (response.statusCode == 200) {
+        final result = jsonDecode(response.body)['result'][0];
+        Map<String, dynamic> location = result['geometry']['location'];
+
+        final LatLng latLng = LatLng(location['lat'], location['lng']);
+        final String placeID = result['place_id'];
+        LocationProvider.of(_locationContext, listen: false)
+            .setLastIdleLocation(latLng,
+                placeID: placeID, formatted_address: name);
+        moveToLocation(latLng);
+      }
+    }).catchError((error) {
+      print(error);
+    });
+  }
+
   @override
   void dispose() {
     clearOverlay();
@@ -281,7 +306,8 @@ class LocationPickerState extends State<LocationPicker> {
             backgroundColor: widget.appBarColor,
             key: appBarKey,
             title: SearchInput(
-              (input) => searchPlace(input),
+              searchPlace,
+              onDone: onSearchPlaceByName,
               key: searchInputKey,
               boxDecoration: widget.searchBarBoxDecoration,
             ),

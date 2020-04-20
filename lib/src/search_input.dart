@@ -8,12 +8,14 @@ class SearchInput extends StatefulWidget {
   SearchInput(
     this.onSearchInput, {
     Key key,
+    this.onDone,
     this.searchInputKey,
     this.boxDecoration,
     this.hintText,
   }) : super(key: key);
 
   final ValueChanged<String> onSearchInput;
+  final ValueChanged<String> onDone;
   final Key searchInputKey;
   final BoxDecoration boxDecoration;
   final String hintText;
@@ -100,6 +102,11 @@ class SearchInputState extends State<SearchInput> {
                 setState(() {
                   hasSearchEntry = value.isNotEmpty;
                 });
+              },
+              onEditingComplete: () {
+                if (widget.onDone != null) {
+                  widget.onDone(editController.text);
+                }
               },
             ),
           ),
