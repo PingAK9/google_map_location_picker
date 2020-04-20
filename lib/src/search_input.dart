@@ -104,6 +104,7 @@ class SearchInputState extends State<SearchInput> {
                 });
               },
               onEditingComplete: () {
+                FocusScope.of(context).unfocus();
                 if (widget.onDone != null) {
                   widget.onDone(editController.text);
                 }

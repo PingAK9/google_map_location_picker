@@ -290,7 +290,7 @@ class MapPickerState extends State<MapPicker> {
               headers: await LocationUtils.getAppHeaders()))
           .body);
 
-      return response['results']['formatted_address'];
+      return response['result']['formatted_address'];
     } catch (e) {
       print(e);
     }

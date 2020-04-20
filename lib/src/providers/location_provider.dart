@@ -12,8 +12,10 @@ class LocationProvider extends ChangeNotifier {
 
   LatLng get lastIdleLocation => _lastIdleLocation;
 
-  void setLastIdleLocation(LatLng lastIdleLocation, {String placeID, String formatted_address}) {
-    if (_lastIdleLocation != lastIdleLocation) {
+  void setLastIdleLocation(LatLng lastIdleLocation,
+      {String placeID, String formatted_address}) {
+    if (_lastIdleLocation != lastIdleLocation ||
+        this.formatted_address != formatted_address) {
       _lastIdleLocation = lastIdleLocation;
       this.placeId = placeId;
       this.formatted_address = formatted_address;
