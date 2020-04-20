@@ -182,7 +182,7 @@ class MapPickerState extends State<MapPicker> {
             markers: [
               Marker(
                   markerId: MarkerId('_lastMapPosition'),
-                  position: _lastMapPosition)
+                  position: LocationProvider.of(context).lastIdleLocation)
             ].toSet(),
           ),
           _MapFabs(
