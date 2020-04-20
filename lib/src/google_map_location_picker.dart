@@ -267,7 +267,7 @@ class LocationPickerState extends State<LocationPicker> {
         .then((headers) => http.get(endpoint, headers: headers))
         .then((response) {
       if (response.statusCode == 200) {
-        final result = jsonDecode(response.body)['result'][0];
+        final result = jsonDecode(response.body)['results'][0];
         Map<String, dynamic> location = result['geometry']['location'];
 
         final LatLng latLng = LatLng(location['lat'], location['lng']);
