@@ -215,7 +215,8 @@ class MapPickerState extends State<MapPicker> {
                   Flexible(
                     flex: 20,
                     child: FutureLoadingBuilder<String>(
-                        future: getAddress(locationProvider.lastIdleLocation),
+                        future: getAddress(locationProvider.lastIdleLocation,
+                            locationProvider.placeId),
                         mutable: true,
                         loadingIndicator: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -256,15 +257,41 @@ class MapPickerState extends State<MapPicker> {
     );
   }
 
-  Future<String> getAddress(LatLng location) async {
+  Future<String> getAddress(LatLng location, String placeId) async {
+    if (placeId == null) {
+      return getAddressByLocation(location);
+    } else {
+      return getAddressByPlace(placeId);
+    }
+  }
+
+  Future<String> getAddressByLocation(LatLng location) async {
     try {
-      var endPoint =
+      String endPoint =
           'https://maps.googleapis.com/maps/api/geocode/json?latlng=${location?.latitude},${location?.longitude}&key=${widget.apiKey}';
+
       var response = jsonDecode((await http.get(endPoint,
               headers: await LocationUtils.getAppHeaders()))
           .body);
 
       return response['results'][0]['formatted_address'];
+    } catch (e) {
+      print(e);
+    }
+
+    return null;
+  }
+
+  Future<String> getAddressByPlace(String placeId) async {
+    try {
+      String endPoint =
+          "https://maps.googleapis.com/maps/api/place/details/json?key=${widget.apiKey}" +
+              "&placeid=$placeId";
+      var response = jsonDecode((await http.get(endPoint,
+              headers: await LocationUtils.getAppHeaders()))
+          .body);
+
+      return response['results']['formatted_address'];
     } catch (e) {
       print(e);
     }

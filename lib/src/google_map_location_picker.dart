@@ -206,8 +206,9 @@ class LocationPickerState extends State<LocationPicker> {
         Map<String, dynamic> location =
             jsonDecode(response.body)['result']['geometry']['location'];
 
-        LatLng latLng = LatLng(location['lat'], location['lng']);
-
+        final LatLng latLng = LatLng(location['lat'], location['lng']);
+        LocationProvider.of(_locationContext, listen: false)
+            .setLastIdleLocation(latLng, placeID: placeId);
         moveToLocation(latLng);
       }
     }).catchError((error) {
@@ -240,100 +241,10 @@ class LocationPickerState extends State<LocationPicker> {
     Overlay.of(context).insert(overlayEntry);
   }
 
-  /// Utility function to get clean readable name of a location. First checks
-  /// for a human-readable name from the nearby list. This helps in the cases
-  /// that the user selects from the nearby list (and expects to see that as a
-  /// result, instead of road name). If no name is found from the nearby list,
-  /// then the road name returned is used instead.
-//  String getLocationName() {
-//    if (locationResult == null) {
-//      return "Unnamed location";
-//    }
-//
-//    for (NearbyPlace np in nearbyPlaces) {
-//      if (np.latLng == locationResult.latLng) {
-//        locationResult.name = np.name;
-//        return np.name;
-//      }
-//    }
-//
-//    return "${locationResult.name}, ${locationResult.locality}";
-//  }
-
-  /// Fetches and updates the nearby places to the provided lat,lng
-  void getNearbyPlaces(LatLng latLng) {
-    LocationUtils.getAppHeaders()
-        .then((headers) => http.get(
-            "https://maps.googleapis.com/maps/api/place/nearbysearch/json?" +
-                "key=${widget.apiKey}&" +
-                "location=${latLng.latitude},${latLng.longitude}&radius=150",
-            headers: headers))
-        .then((response) {
-      if (response.statusCode == 200) {
-        nearbyPlaces.clear();
-        for (Map<String, dynamic> item
-            in jsonDecode(response.body)['results']) {
-          NearbyPlace nearbyPlace = NearbyPlace();
-
-          nearbyPlace.name = item['name'];
-          nearbyPlace.icon = item['icon'];
-          double latitude = item['geometry']['location']['lat'];
-          double longitude = item['geometry']['location']['lng'];
-
-          LatLng _latLng = LatLng(latitude, longitude);
-
-          nearbyPlace.latLng = _latLng;
-
-          nearbyPlaces.add(nearbyPlace);
-        }
-      }
-
-      // to update the nearby places
-      setState(() {
-        // this is to require the result to show
-        hasSearchTerm = false;
-      });
-    }).catchError((error) {});
-  }
-
-  /// This method gets the human readable name of the location. Mostly appears
-  /// to be the road name and the locality.
-  Future reverseGeocodeLatLng(LatLng latLng) async {
-    var response = await http.get(
-        "https://maps.googleapis.com/maps/api/geocode/json?latlng=${latLng.latitude},${latLng.longitude}"
-        "&key=${widget.apiKey}",
-        headers: await LocationUtils.getAppHeaders());
-
-    if (response.statusCode == 200) {
-      Map<String, dynamic> responseJson = jsonDecode(response.body);
-
-      String road;
-
-      if (responseJson['status'] == 'REQUEST_DENIED') {
-        road = 'REQUEST DENIED = please see log for more details';
-        print(responseJson['error_message']);
-      } else {
-        road =
-            responseJson['results'][0]['address_components'][0]['short_name'];
-      }
-
-//      String locality =
-//          responseJson['results'][0]['address_components'][1]['short_name'];
-
-      setState(() {
-        locationResult = LocationResult();
-        locationResult.address = road;
-        locationResult.latLng = latLng;
-      });
-    }
-  }
-
   /// Moves the camera to the provided location and updates other UI features to
   /// match the location.
   void moveToLocation(LatLng latLng) {
     mapKey.currentState.mapController.future.then((controller) {
-      // Todo: Update lastPosition here
-      LocationProvider.of(context, listen: false).setLastIdleLocation(latLng);
       controller.animateCamera(
         CameraUpdate.newCameraPosition(
           CameraPosition(
@@ -343,10 +254,6 @@ class LocationPickerState extends State<LocationPicker> {
         ),
       );
     });
-
-    reverseGeocodeLatLng(latLng);
-
-    getNearbyPlaces(latLng);
   }
 
   @override
@@ -355,6 +262,8 @@ class LocationPickerState extends State<LocationPicker> {
     super.dispose();
   }
 
+  BuildContext _locationContext;
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -362,6 +271,7 @@ class LocationPickerState extends State<LocationPicker> {
         ChangeNotifierProvider(create: (_) => LocationProvider()),
       ],
       child: Builder(builder: (context) {
+        _locationContext = context;
         return Scaffold(
           extendBodyBehindAppBar: true,
           appBar: AppBar(
