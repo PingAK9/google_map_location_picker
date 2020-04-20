@@ -164,12 +164,12 @@ class MapPickerState extends State<MapPicker> {
                   .setLastIdleLocation(_lastMapPosition);
             },
             onCameraMove: (CameraPosition position) {
-              _lastMapPosition = position.target;
+//              _lastMapPosition = position.target;
             },
             onCameraIdle: () async {
               print("onCameraIdle#_lastMapPosition = $_lastMapPosition");
-              LocationProvider.of(context, listen: false)
-                  .setLastIdleLocation(_lastMapPosition);
+//              LocationProvider.of(context, listen: false)
+//                  .setLastIdleLocation(_lastMapPosition);
             },
             onCameraMoveStarted: () {
               print("onCameraMoveStarted#_lastMapPosition = $_lastMapPosition");
@@ -179,6 +179,7 @@ class MapPickerState extends State<MapPicker> {
 //            },
             mapType: _currentMapType,
             myLocationEnabled: true,
+            markers: [Marker(position: _lastMapPosition)].toSet(),
           ),
           _MapFabs(
             myLocationButtonEnabled: widget.myLocationButtonEnabled,
@@ -393,7 +394,9 @@ class _MapFabs extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.topRight,
-      margin: const EdgeInsets.only(top: kToolbarHeight + 24, right: 8),
+      margin: EdgeInsets.only(
+          top: kToolbarHeight + 24 + MediaQuery.of(context).padding.top,
+          right: 8),
       child: Column(
         children: <Widget>[
           if (layersButtonEnabled)
